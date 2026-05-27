@@ -11,6 +11,7 @@ import { useState } from "react";
  * - Progressive engagement: awareness → action → mastery
  * - Institutional navy primary with cyan/gold accents
  * - Diagonal section dividers for visual flow
+ * - Sophisticated hover animations and micro-interactions
  */
 
 export function HeroCTA() {
@@ -44,17 +45,18 @@ export function HeroCTA() {
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
             <Button
               size="lg"
-              className="bg-primary hover:bg-blue-900 text-white rounded-lg h-14 px-8 font-semibold text-lg transition-all duration-200 hover:shadow-lg active:scale-95"
+              className="cta-button-primary bg-primary hover:bg-blue-900 text-white rounded-lg h-14 px-8 font-semibold text-lg"
             >
               Start Learning
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="icon-slide ml-2 h-5 w-5" />
             </Button>
             <Button
               variant="outline"
               size="lg"
-              className="border-2 border-primary text-primary hover:bg-blue-50 rounded-lg h-14 px-8 font-semibold text-lg"
+              className="cta-button-outline border-2 border-primary text-primary hover:bg-blue-50 rounded-lg h-14 px-8 font-semibold text-lg"
             >
               Explore Data
+              <ArrowRight className="icon-slide ml-2 h-5 w-5" />
             </Button>
           </div>
 
@@ -136,13 +138,20 @@ export function NewsletterCTA() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
+              className="newsletter-input flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
             />
             <Button
               type="submit"
-              className="bg-accent hover:bg-cyan-400 text-primary font-semibold rounded-lg px-6 py-3 transition-all duration-200 hover:shadow-lg active:scale-95 whitespace-nowrap"
+              className="cta-button-primary bg-accent hover:bg-cyan-400 text-primary font-semibold rounded-lg px-6 py-3 whitespace-nowrap"
             >
-              {submitted ? "✓ Subscribed" : "Subscribe"}
+              {submitted ? (
+                <span className="success-checkmark flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4" />
+                  Subscribed
+                </span>
+              ) : (
+                "Subscribe"
+              )}
             </Button>
           </form>
 
@@ -199,10 +208,10 @@ export function ProgressTrackCTA() {
           {tracks.map((track, idx) => (
             <div
               key={idx}
-              className="group relative bg-white rounded-xl p-8 border border-slate-200 hover:border-accent hover:shadow-xl transition-all duration-300"
+              className="track-card relative bg-white rounded-xl p-8 border border-slate-200"
             >
               {/* Step indicator */}
-              <div className="absolute -top-4 -left-4 w-10 h-10 bg-accent text-primary font-bold rounded-full flex items-center justify-center text-sm">
+              <div className="track-card-number absolute -top-4 -left-4 w-10 h-10 bg-accent text-primary font-bold rounded-full flex items-center justify-center text-sm">
                 {idx + 1}
               </div>
 
@@ -221,14 +230,14 @@ export function ProgressTrackCTA() {
               </div>
 
               <Button
-                className="w-full bg-primary hover:bg-blue-900 text-white rounded-lg py-3 font-semibold transition-all duration-200 group-hover:shadow-lg active:scale-95"
+                className="cta-button-primary w-full bg-primary hover:bg-blue-900 text-white rounded-lg py-3 font-semibold"
               >
                 {track.cta}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="icon-slide ml-2 h-4 w-4" />
               </Button>
 
               {/* Accent line on hover */}
-              <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-accent to-secondary rounded-b-xl w-0 group-hover:w-full transition-all duration-300"></div>
+              <div className="track-accent-line"></div>
             </div>
           ))}
         </div>
@@ -270,8 +279,8 @@ export function FeaturesCTA() {
 
             <div className="space-y-6">
               {features.map((feature, idx) => (
-                <div key={idx} className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-accent">
+                <div key={idx} className="feature-card flex gap-4">
+                  <div className="feature-icon flex-shrink-0 w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-accent">
                     {feature.icon}
                   </div>
                   <div>
@@ -283,10 +292,10 @@ export function FeaturesCTA() {
             </div>
 
             <Button
-              className="mt-8 bg-primary hover:bg-blue-900 text-white rounded-lg px-8 py-3 font-semibold transition-all duration-200 hover:shadow-lg active:scale-95"
+              className="cta-button-primary mt-8 bg-primary hover:bg-blue-900 text-white rounded-lg px-8 py-3 font-semibold"
             >
               Explore All Features
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="icon-slide ml-2 h-4 w-4" />
             </Button>
           </div>
 
