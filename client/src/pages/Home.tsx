@@ -1,25 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import { CTAShowcase } from "@/components/CTASection";
 
 /**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
+ * Home Page - USA Spending Playbook CTA Components
+ * 
+ * Design Philosophy: Civic Data Transparency
+ * - Institutional navy primary color (#0A1B3F)
+ * - Cyan accents (#00D9FF) for energy and transparency
+ * - Gold accents (#FFD700) for warmth and accessibility
+ * - Asymmetric layouts with diagonal dividers
+ * - Progressive engagement: awareness → action → mastery
  */
-export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+export default function Home() {
+  return <CTAShowcase />;
 }
