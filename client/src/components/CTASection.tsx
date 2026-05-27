@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Mail, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle, Mail, Zap, AlertCircle, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 /**
  * CTA Section Component
@@ -12,6 +13,7 @@ import { useState } from "react";
  * - Institutional navy primary with cyan/gold accents
  * - Diagonal section dividers for visual flow
  * - Sophisticated hover animations and micro-interactions
+ * - Form validation with error states and toast notifications
  */
 
 export function HeroCTA() {
@@ -95,11 +97,79 @@ export function HeroCTA() {
 export function NewsletterCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Email validation regex
+  const validateEmail = (emailValue: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(emailValue);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    // Clear error when user starts typing
+    if (error) {
+      setError(null);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setError(null);
+
+    // Validation checks
+    if (!email.trim()) {
+      setError("Email address is required");
+      toast.error("Please enter your email address", {
+        description: "We need your email to send you weekly insights.",
+        icon: <AlertCircle className="h-4 w-4" />,
+      });
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      toast.error("Invalid email format", {
+        description: "Please check your email and try again.",
+        icon: <AlertCircle className="h-4 w-4" />,
+      });
+      return;
+    }
+
+    // Simulate API call
+    setIsLoading(true);
+    try {
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Simulate occasional API errors (10% chance)
+      if (Math.random() < 0.1) {
+        throw new Error("Server error");
+      }
+
+      setSubmitted(true);
+      setEmail("");
+      toast.success("Successfully subscribed!", {
+        description: "Check your inbox for a confirmation email.",
+        icon: <CheckCircle className="h-4 w-4" />,
+      });
+
+      // Reset submitted state after 3 seconds
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 3000);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      setError("Failed to subscribe. Please try again.");
+      toast.error("Subscription failed", {
+        description: "Please try again in a moment or contact support.",
+        icon: <AlertCircle className="h-4 w-4" />,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -131,28 +201,61 @@ export function NewsletterCTA() {
             Curated guides, data releases, and analysis tips delivered to your inbox. No spam, just actionable federal spending intelligence.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 mb-6">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="newsletter-input flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-            />
-            <Button
-              type="submit"
-              className="cta-button-primary bg-accent hover:bg-cyan-400 text-primary font-semibold rounded-lg px-6 py-3 whitespace-nowrap"
-            >
-              {submitted ? (
-                <span className="success-checkmark flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4" />
-                  Subscribed
-                </span>
-              ) : (
-                "Subscribe"
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-6">
+            <div className="relative">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex-1 relative">
+                  <input
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={handleEmailChange}
+                    disabled={isLoading}
+                    className={`newsletter-input w-full px-4 py-3 rounded-lg bg-white/10 border text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary transition-all duration-200 ${
+                      error
+                        ? "border-red-400 focus:ring-red-400"
+                        : "border-white/20 focus:ring-accent focus:border-transparent"
+                    } ${isLoading ? "opacity-60 cursor-not-allowed" : ""}`}
+                  />
+                  {error && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-red-300">
+                      <AlertCircle className="h-5 w-5" />
+                    </div>
+                  )}
+                </div>
+                <Button
+                  type="submit"
+                  disabled={isLoading || submitted}
+                  className={`cta-button-primary font-semibold rounded-lg px-6 py-3 whitespace-nowrap transition-all duration-200 ${
+                    submitted
+                      ? "bg-green-500 hover:bg-green-600 text-white"
+                      : "bg-accent hover:bg-cyan-400 text-primary"
+                  } ${isLoading ? "opacity-75 cursor-not-allowed" : ""}`}
+                >
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      Subscribing...
+                    </span>
+                  ) : submitted ? (
+                    <span className="success-checkmark flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4" />
+                      Subscribed
+                    </span>
+                  ) : (
+                    "Subscribe"
+                  )}
+                </Button>
+              </div>
+
+              {/* Error message display */}
+              {error && (
+                <div className="mt-3 flex items-start gap-2 p-3 bg-red-500/20 border border-red-400/50 rounded-lg animate-in fade-in slide-in-from-top-2 duration-200">
+                  <AlertCircle className="h-4 w-4 text-red-300 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-red-200">{error}</p>
+                </div>
               )}
-            </Button>
+            </div>
           </form>
 
           <p className="text-sm text-blue-200">
