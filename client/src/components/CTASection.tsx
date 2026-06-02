@@ -68,6 +68,37 @@ export function HeroCTA() {
             </Button>
           </div>
 
+          {/* Social Proof Badges */}
+          <div className="mb-12 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-100">
+            <p className="text-sm font-semibold text-slate-600 mb-4">Trusted by government analysts, journalists & researchers</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="flex items-center gap-2 text-sm">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                  <span className="text-accent font-bold">✓</span>
+                </div>
+                <span className="text-slate-700 font-medium">5K+ Users</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                  <span className="text-accent font-bold">✓</span>
+                </div>
+                <span className="text-slate-700 font-medium">100% Free</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                  <span className="text-accent font-bold">✓</span>
+                </div>
+                <span className="text-slate-700 font-medium">Open Data</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                  <span className="text-accent font-bold">✓</span>
+                </div>
+                <span className="text-slate-700 font-medium">No Sign-up</span>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
               <div className="text-3xl font-bold text-accent">7</div>
