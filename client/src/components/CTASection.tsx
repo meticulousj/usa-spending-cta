@@ -45,13 +45,19 @@ export function HeroCTA() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Button
-              size="lg"
-              className="cta-button-primary bg-primary hover:bg-blue-900 text-white rounded-lg h-14 px-8 font-semibold text-lg"
+            <a
+              href="https://usaspendingplaybook.base44.app"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Start Learning
-              <ArrowRight className="icon-slide ml-2 h-5 w-5" />
-            </Button>
+              <Button
+                size="lg"
+                className="cta-button-primary bg-primary hover:bg-blue-900 text-white rounded-lg h-14 px-8 font-semibold text-lg"
+              >
+                Start Learning
+                <ArrowRight className="icon-slide ml-2 h-5 w-5" />
+              </Button>
+            </a>
             <Button
               variant="outline"
               size="lg"
